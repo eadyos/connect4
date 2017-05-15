@@ -9,11 +9,13 @@ turn = 0
 
 game = Game.new
 
+player_count = ask "One or two player game? (1, 2): "
+
 loop do
     game.show()
     currentPlayer = players[turn % players.size]
     otherPlayer = players[(turn + 1) % players.size]
-    if turn % 2 == 1
+    if turn % 2 == 1 && player_count == '1'
         game.take_computer_turn(currentPlayer, otherPlayer)
         turn += 1
     else

@@ -1,3 +1,5 @@
+require 'json'
+
 class Game 
 
     @width
@@ -5,17 +7,25 @@ class Game
     @columns
     @@empty = ' '
 
-    def initialize()
+    def initialize(state_as_json = nil)
         @width = 7
         @height = 6
-        @columns = []
-        @width.times do 
-            @columns << Array.new(@height, @@empty)
+        if(state_as_json)
+            @columns = JSON.parse(state_as_json)
+        else
+            @columns = []
+            @width.times do 
+                @columns << Array.new(@height, @@empty)
+            end
         end
     end
 
     def show()
         puts state_as_text()
+    end
+
+    def state_as_json()
+        @columns.to_json
     end
 
     def state_as_text()
