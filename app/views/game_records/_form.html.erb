@@ -1,0 +1,22 @@
+<%= form_with(model: game_record, local: true) do |form| %>
+  <% if game_record.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(game_record.errors.count, "error") %> prohibited this game_record from being saved:</h2>
+
+      <ul>
+      <% game_record.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :json_state %>
+    <%= form.text_field :json_state, id: :game_record_json_state %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -12,4 +12,10 @@
 //
 //= require rails-ujs
 //= require turbolinks
-//= require_tree .
+//= require angular
+//= require angular-ui-router
+//= require app.js
+//= require MainController.js
+
+
+
