@@ -43,16 +43,15 @@ class Game
     end
 
     def take_computer_turn(computer_token, player_token)
+        column = nil
         if potential_column_neighbor_counts(computer_token)[3]
-            add_token_to_column(computer_token,
-                potential_column_neighbor_counts(computer_token)[3].sample)
-        elsif potential_column_neighbor_counts(player_token)[3]
-            add_token_to_column(computer_token,
-                potential_column_neighbor_counts(player_token)[3].sample)
+            column = potential_column_neighbor_counts(computer_token)[3].sample
+        elsif potential_column_neighbor_counts(player_token).max_by{|k,v| k}[0] >= 2
+            column = potential_column_neighbor_counts(player_token).max_by{|k,v| k}[1].sample
         else
-            add_token_to_column(computer_token,
-                potential_column_neighbor_counts(computer_token).max_by{|k,v| k}[1].sample)
+            column = potential_column_neighbor_counts(computer_token).max_by{|k,v| k}[1].sample
         end
+            add_token_to_column(computer_token, column)
     end
 
     def potential_column_neighbor_counts(token)
