@@ -51,7 +51,7 @@ class Game
         else
             column = potential_column_neighbor_counts(computer_token).max_by{|k,v| k}[1].sample
         end
-            add_token_to_column(computer_token, column)
+        add_token_to_column(computer_token, column)
     end
 
     def potential_column_neighbor_counts(token)
