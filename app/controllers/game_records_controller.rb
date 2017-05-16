@@ -1,64 +1,40 @@
+
 class GameRecordsController < ApplicationController
-  before_action :set_game_record, only: [:show, :edit, :update, :destroy]
+  before_action :set_game_record, only: [:update]
 
-  # GET /game_records
-  # GET /game_records.json
   def index
-    @game_records = GameRecord.all
   end
 
-  # GET /game_records/1
-  # GET /game_records/1.json
-  def show
-  end
-
-  # GET /game_records/new
-  def new
-    @game_record = GameRecord.new
-  end
-
-  # GET /game_records/1/edit
-  def edit
-  end
-
-  # POST /game_records
-  # POST /game_records.json
   def create
-    @game_record = GameRecord.new(game_record_params)
-
-    respond_to do |format|
-      if @game_record.save
-        format.html { redirect_to @game_record, notice: 'Game record was successfully created.' }
-        format.json { render :show, status: :created, location: @game_record }
-      else
-        format.html { render :new }
-        format.json { render json: @game_record.errors, status: :unprocessable_entity }
-      end
-    end
+    game = Game.new
+    @game_record = GameRecord.create(json_state: game.state_as_json)
+    puts "here it is"
+    puts @game_record.json_state
+    data = {'id' => @game_record.id, 'state' => game.state_as_json}
+    render json: data, :layout => false
   end
 
-  # PATCH/PUT /game_records/1
-  # PATCH/PUT /game_records/1.json
   def update
-    respond_to do |format|
-      if @game_record.update(game_record_params)
-        format.html { redirect_to @game_record, notice: 'Game record was successfully updated.' }
-        format.json { render :show, status: :ok, location: @game_record }
-      else
-        format.html { render :edit }
-        format.json { render json: @game_record.errors, status: :unprocessable_entity }
+    result = ""
+    game = Game.new(@game_record.json_state)
+    game.add_token_to_column("1", params[:column])
+    if game.is_draw?
+      result = "draw"
+    elsif game.is_won?("1")
+      result = "won"
+    end
+    if result == ""
+      game.take_computer_turn("2", "1")
+      if game.is_draw?
+        result = "draw"
+      elsif game.is_won?("2")
+        result = "lost"
       end
     end
-  end
-
-  # DELETE /game_records/1
-  # DELETE /game_records/1.json
-  def destroy
-    @game_record.destroy
-    respond_to do |format|
-      format.html { redirect_to game_records_url, notice: 'Game record was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    @game_record.json_state = game.state_as_json()
+    @game_record.save()
+    data = {'state' => game.state_as_json, 'result' => result}
+    render json: data, :layout => false
   end
 
   private

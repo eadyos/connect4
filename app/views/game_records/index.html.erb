@@ -2,8 +2,19 @@
 
   <div ng-controller="MainController">
   
-    <h2>Connect 4</h2>
-    <h4>{{ title }}</h4>
+    <h2>{{ title }}</h2>
+
+    <button style="margin-bottom: 20px;" id="createGame" ng-hide="gameInProgress" ng-click="createGame()">Create New Game</button>
+
+    <table>
+      <tr ng-repeat="row in state">
+        <td ng-class="playerColor(col)" ng-click="selectColumn($index)" ng-repeat="col in row track by $index"></td>
+      </tr>
+    </table>
+
+    <div>
+      {{ instructions }}
+    </div>
 
   </div>
 
