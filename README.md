@@ -16,4 +16,6 @@ Last, but not least, I have enjoyed polishing up my Ruby knowledge by taking on 
 
 * Database creation: Run rake db:migrate
 
+* Primary implementation was performed in the class /lib/game.rb  Once the command line version was working, I adapted the Rails so that adatbase record saves the state of the game as JSON between requests.
+
 * How to run the test suite:  There is a class in the /lib folder caled tc_game.rb that I used to test out the initial PORO ruby implementation of the game.  The command line version of the game can be run with the /lib/main.rb runner file.
